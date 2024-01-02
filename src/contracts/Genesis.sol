@@ -130,7 +130,11 @@ contract Genesis {
 
     function deleteProject(uint id) public returns (bool) {
         require(projects[id].status == statusEnum.OPEN, "Project no longer opened");
-        require(msg.sender == projects[id].owner, "Unauthorized Entity");
+        require(
+            msg.sender == projects[id].owner ||
+            msg.sender == owner,
+            "Unauthorized Entity"
+        );
 
         projects[id].status = statusEnum.DELETED;
         performRefund(id);
